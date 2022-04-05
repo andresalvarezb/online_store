@@ -1,7 +1,7 @@
-const productsRouter = require('./products.router');
-const usersRouter = require('./users.router');
-const categoriesRouter = require('./categories.router');
 const express = require('express');
+const usersRouter = require('./users.router');
+const productsRouter = require('./products.router');
+const categoriesRouter = require('./categories.router');
 
 function routersApi(app) {
     // path global
