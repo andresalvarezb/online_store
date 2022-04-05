@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andres Alvarez - andres.alvarez094@hotmail.es",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.5.0",
