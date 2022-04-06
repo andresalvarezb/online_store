@@ -1,5 +1,5 @@
 const faker = require('faker')
-// const boom = require('@hapi/boom');
+const boom = require('@hapi/boom');
 
 class UsersService {
 
@@ -14,6 +14,7 @@ class UsersService {
 				id: faker.datatype.uuid(),
 				name: faker.name.firstName(),
 				gender: faker.name.gender(),
+				email: faker.internet.email()
 			})
 		}
 	}
@@ -21,7 +22,7 @@ class UsersService {
 	async create(data) {
 		const newUser = {
 			id: faker.datatype.uuid(),
-			...data
+			...data,
 		}
 		this.users.push(newUser);
 		return newUser
@@ -33,6 +34,9 @@ class UsersService {
 
 	async findOne(id) {
 		const user = this.users.find(user => user.id === id)
+		if (!user) {
+			throw boom.notFound('user not found')
+		}
 		return user
 	}
 
@@ -44,14 +48,19 @@ class UsersService {
 				...newData
 			}
 		} else {
-			throw new Error('There isn\'t this user');
+			throw boom.notFound('user not found');
 		}
+		return user
 	}
 
 	async delete(id) {
-		const users = this.users.filter(user => user.id !== id)
-		this.users = users
-		return `Deleting user ${id}`
+		const index = this.users.findIndex(user => user.id === id)
+		if (index !== -1) {
+			this.users.splice(index, 1);
+		} else {
+			throw boom.notFound('product not found')
+		}
+		return id
 	}
 
 }
