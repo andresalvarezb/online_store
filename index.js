@@ -7,7 +7,7 @@ const { logErrors, errorHandler, boomErrorHandler } = require('./middleware/erro
 
 const app = express();
 // create port
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // MIDDLEWARE
 app.use(express.json());
@@ -15,7 +15,7 @@ app.use(express.json());
 const whiteList = ['http://localhost:8080', 'https://myapp.com']
 const options = {
 	origin: (origin, callback) => {
-		if (whiteList.includes(origin)) {
+		if (whiteList.includes(origin) || !origin) {
 			callback(null, true)
 		} else {
 			callback(new Error('don\'t allow'))
