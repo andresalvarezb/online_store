@@ -9,6 +9,9 @@ const app = express();
 // create port
 const port = 8080;
 
+// MIDDLEWARE
+app.use(express.json());
+
 const whiteList = ['http://localhost:8080', 'https://myapp.com']
 const options = {
 	origin: (origin, callback) => {
@@ -19,10 +22,8 @@ const options = {
 		}
 	}
 }
-app.use(express.json());
-app.use(cors(options))
-
 routersApi(app);
+app.use(cors(options))
 
 app.use(logErrors);
 app.use(boomErrorHandler)
