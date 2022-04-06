@@ -1,27 +1,30 @@
 const express = require('express');
+const validatorHandle = require('../middleware/validator.handler');
+const { createUsersSchema, getUsersSchema, updateUsersSchema } = require('../schemas/users.schema');
 const router = express.Router();
 
 const UsersService = require('../services/users.services');
 const service = new UsersService()
+
 
 router.get('/', async (req, res) => {
 	const users = await service.find()
 	res.json(users)
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validatorHandle(getUsersSchema, 'params'), async (req, res) => {
 	const { id } = req.params;
 	const user = await service.findOne(id)
 	res.json(user)
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validatorHandle(createUsersSchema, 'body'), async (req, res) => {
 	const body = req.body;
 	const newUser = await service.create(body)
 	res.status(201).json(newUser)
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', validatorHandle(getUsersSchema, 'params'), validatorHandle(updateUsersSchema, 'body'), async (req, res, next) => {
 	try {
 		const { id } = req.params
 		const body = req.body
@@ -32,7 +35,7 @@ router.patch('/:id', async (req, res, next) => {
 	}
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validatorHandle(getUsersSchema, 'params'), async (req, res) => {
 	const { id } = req.params
 	const user = await service.delete(id)
 	res.json({
