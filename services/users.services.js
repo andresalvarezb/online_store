@@ -18,7 +18,7 @@ class UsersService {
 		}
 	}
 
-	create(data) {
+	async create(data) {
 		const newUser = {
 			id: faker.datatype.uuid(),
 			...data
@@ -27,16 +27,16 @@ class UsersService {
 		return newUser
 	}
 
-	find() {
+	async find() {
 		return this.users
 	}
 
-	findOne(id) {
+	async findOne(id) {
 		const user = this.users.find(user => user.id === id)
 		return user
 	}
 
-	update(id, newData) {
+	async update(id, newData) {
 		let user = this.users.find(user => user.id === id)
 		if (user) {
 			user = {
@@ -48,7 +48,7 @@ class UsersService {
 		}
 	}
 
-	delete(id) {
+	async delete(id) {
 		const users = this.users.filter(user => user.id !== id)
 		this.users = users
 		return `Deleting user ${id}`
