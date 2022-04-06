@@ -3,7 +3,7 @@ const Joi = require('joi')
 const id = Joi.string().uuid();
 const name = Joi.string().min(3)
 const gender = Joi.string()
-const email = Joi.string.email()
+const email = Joi.string().email()
 
 const createUsersSchema = Joi.object({
 	name: name.required(),
